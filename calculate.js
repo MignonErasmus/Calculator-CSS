@@ -105,6 +105,15 @@ $(() => {
             }
 
             topOfTheStack = operatorStack[operatorStack.length-1]; //*
+
+            // check for sin(30) + cos(60)
+            if (topOfTheStack=="sin" || topOfTheStack=="cos" || topOfTheStack=="tan")
+            {
+              top = operatorStack.pop();
+              numberQueue.push(top);
+              topOfTheStack = operatorStack[operatorStack.length-1]; //*
+            }
+            console.log("Top -2: " + topOfTheStack);
             console.log("Top: " + top);
           }
         }
