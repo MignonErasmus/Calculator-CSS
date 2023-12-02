@@ -29,7 +29,6 @@ $(() => {
     {
       //convert the arr to a string expression
       let expression = convertArrToExpression(arrQuestion);
-      console.log(expression);
 
       let errorMsg = validateExpression(expression);
       if (errorMsg != "")
@@ -53,7 +52,6 @@ $(() => {
     {
       // push to the equation array
       arrQuestion.push("/");
-      console.log(arrQuestion);
       $("#question").val(convertArrToExpression(arrQuestion));
     }
     else if($(this).val() == "sin" || $(this).val() == "cos" || $(this).val() == "tan")
@@ -62,10 +60,9 @@ $(() => {
       {
         arrQuestion.push("*");
       }
-      
+
       arrQuestion.push($(this).val());
       $("#question").val(convertArrToExpression(arrQuestion));
-      console.log(arrQuestion);
     }
     else
     {
@@ -96,7 +93,6 @@ $(() => {
           // look for the left parenthesis
           if (operatorStack.length !== 0)
           {
-            console.log("CLOSING BRACKET");
             let top = operatorStack.pop();
             while (top!==undefined && top !== '(')
             {
@@ -106,7 +102,6 @@ $(() => {
             }
 
             topOfTheStack = operatorStack[operatorStack.length-1]; //*
-            console.log("Top: " + top);
           }
         }
         else if (expr[k] == "s") // sin
@@ -136,7 +131,6 @@ $(() => {
         {
           let op1 = expr[k];
           let op2 = topOfTheStack;
-          console.log("Before the while loop: op: " + op1 + " op2 " + op2);
           // there is an operator o2 at the top of the operator stack which is not a left parenthesis AND (o2 has greater precedence than o1 OR (o1 and o2 have the same precedence)
           while ((op2 !== '(' ) && 
           (op2!==undefined && 
@@ -145,11 +139,6 @@ $(() => {
           )) // same precedence
           {
             // pop o2 from stack into queue
-            console.log('===============');
-            console.log(numberQueue);
-            console.log(operatorStack);
-            console.log("op2: " + op2);
-
             op2 = operatorStack.pop();
             if (op2 !== undefined && op2 !== '(' )
             {
@@ -160,10 +149,6 @@ $(() => {
               operatorStack.push('(');
             }
 
-            console.log("op2: " + op2);
-            console.log(numberQueue);
-            console.log(operatorStack);
-            console.log('+++++++++++++++');
           }
           // push o1 into onto the stack
           operatorStack.push(op1);
@@ -182,9 +167,6 @@ $(() => {
           numberQueue.push(number);
           number = '';
         }
-        
-        console.log(operatorStack);
-        console.log(numberQueue);
       }
     }
 
@@ -193,15 +175,9 @@ $(() => {
     {
       let top = operatorStack.pop();
       numberQueue.push(top);
-      
-      //topOfTheStack = top;
-      console.log("top: " + top);
-      console.log(operatorStack);
     }
 
     topOfTheStack = '';
-    console.log(operatorStack);
-    console.log(numberQueue);
 
     return numberQueue;
   }
@@ -209,7 +185,6 @@ $(() => {
   //===========================HELPER FUNCTION===========================
   // convert postfix array into a answer
   const postfixToAnswer = (postFixArr) => {
-    console.log("POSTFIX to ANSWER");
     let stack = [];
     let answer = 0;
     let op1, op2;
@@ -221,7 +196,6 @@ $(() => {
       }
       else
       {
-        console.log(stack + postFixArr[i]);
         if (postFixArr[i] == 'sin' || postFixArr[i] == 'cos' || postFixArr[i] == 'tan')
         {
           op2 = stack.pop();
@@ -232,10 +206,8 @@ $(() => {
         {
           op2 = stack.pop();
           op1 = stack.pop();
-          console.log(op1 + " " + op2 + " " + postFixArr[i]);
           answer = calculate(op1, op2, postFixArr[i]);
           stack.push(answer);
-          console.log(stack);
         }
 
       }
@@ -300,11 +272,9 @@ $(() => {
     newExpr = newExpr.replace(/sin/g, '');
     newExpr = newExpr.replace(/cos/g, '');
     newExpr = newExpr.replace(/tan/g, '');
-    
-    console.log(newExpr);
 
     let regex = /^(\d+[\+\-\*\/\^])*[\+\-\*\/]?\d+$/;
-    // return "";
+
     if (newExpr.search(regex) !== -1)
     {
       return "";
