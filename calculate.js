@@ -58,6 +58,11 @@ $(() => {
     }
     else if($(this).val() == "sin" || $(this).val() == "cos" || $(this).val() == "tan")
     {
+      if (!isNaN(arrQuestion[arrQuestion.length-1])) // change 2sin(30) to 2*sin(30)
+      {
+        arrQuestion.push("*");
+      }
+      
       arrQuestion.push($(this).val());
       $("#question").val(convertArrToExpression(arrQuestion));
       console.log(arrQuestion);
