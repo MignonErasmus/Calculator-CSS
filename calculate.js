@@ -56,7 +56,7 @@ $(() => {
       console.log(arrQuestion);
       $("#question").val(convertArrToExpression(arrQuestion));
     }
-    else if($(this).val() == "sin")
+    else if($(this).val() == "sin" || $(this).val() == "cos" || $(this).val() == "tan")
     {
       arrQuestion.push($(this).val());
       $("#question").val(convertArrToExpression(arrQuestion));
@@ -107,6 +107,18 @@ $(() => {
         else if (expr[k] == "s") // sin
         {
           operatorStack.push("sin");
+          topOfTheStack = expr[k];
+          k = k+2;
+        }
+        else if (expr[k] == "c") // cos
+        {
+          operatorStack.push("cos");
+          topOfTheStack = expr[k];
+          k = k+2;
+        }
+        else if (expr[k] == "t") // tan
+        {
+          operatorStack.push("tan");
           topOfTheStack = expr[k];
           k = k+2;
         }
@@ -205,7 +217,7 @@ $(() => {
       else
       {
         console.log(stack + postFixArr[i]);
-        if (postFixArr[i] == 'sin')
+        if (postFixArr[i] == 'sin' || postFixArr[i] == 'cos' || postFixArr[i] == 'tan')
         {
           op2 = stack.pop();
           answer = calculate(op2, 0, postFixArr[i]);
@@ -249,6 +261,12 @@ $(() => {
         break;
       case 'sin':
         answer = Math.sin(Number(op1) * (Math.PI / 180));
+        break;
+      case 'cos':
+        answer = Math.cos(Number(op1) * (Math.PI / 180));
+        break;
+      case 'tan':
+        answer = Math.tan(Number(op1) * (Math.PI / 180));
         break;
     }
 
