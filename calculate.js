@@ -56,6 +56,12 @@ $(() => {
       console.log(arrQuestion);
       $("#question").val(convertArrToExpression(arrQuestion));
     }
+    else if($(this).val() == "sin")
+    {
+      arrQuestion.push($(this).val());
+      $("#question").val(convertArrToExpression(arrQuestion));
+      console.log(arrQuestion);
+    }
     else
     {
       // push to the equation array
@@ -97,6 +103,12 @@ $(() => {
             topOfTheStack = operatorStack[operatorStack.length-1]; //*
             console.log("Top: " + top);
           }
+        }
+        else if (expr[k] == "s") // sin
+        {
+          operatorStack.push("sin");
+          topOfTheStack = expr[k];
+          k = k+2;
         }
         else if (topOfTheStack == '')
         {
@@ -192,13 +204,23 @@ $(() => {
       }
       else
       {
-        console.log(stack);
-        op2 = stack.pop();
-        op1 = stack.pop();
-        console.log(op1 + " " + op2 + " " + postFixArr[i]);
-        answer = calculate(op1, op2, postFixArr[i]);
-        stack.push(answer);
-        console.log(stack);
+        console.log(stack + postFixArr[i]);
+        if (postFixArr[i] == 'sin')
+        {
+          op2 = stack.pop();
+          answer = calculate(op2, 0, postFixArr[i]);
+          stack.push(answer);
+        }
+        else
+        {
+          op2 = stack.pop();
+          op1 = stack.pop();
+          console.log(op1 + " " + op2 + " " + postFixArr[i]);
+          answer = calculate(op1, op2, postFixArr[i]);
+          stack.push(answer);
+          console.log(stack);
+        }
+
       }
     }
 
@@ -224,6 +246,9 @@ $(() => {
         break;
       case '^':
         answer = Math.pow(Number(op1), Number(op2));
+        break;
+      case 'sin':
+        answer = Math.sin(Number(op1) * (Math.PI / 180));
         break;
     }
 
