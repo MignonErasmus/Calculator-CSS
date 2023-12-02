@@ -292,11 +292,14 @@ $(() => {
   const validateExpression = (expr) => {
     let newExpr = expr.replace(/\(/g, '');
     newExpr = newExpr.replace(/\)/g, '');
+    newExpr = newExpr.replace(/sin/g, '');
+    newExpr = newExpr.replace(/cos/g, '');
+    newExpr = newExpr.replace(/tan/g, '');
     
     console.log(newExpr);
 
     let regex = /^(\d+[\+\-\*\/\^])*[\+\-\*\/]?\d+$/;
-    return "";
+    // return "";
     if (newExpr.search(regex) !== -1)
     {
       return "";
