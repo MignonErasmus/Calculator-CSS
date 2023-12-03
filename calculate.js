@@ -56,6 +56,16 @@ $(() => {
       console.log(arrQuestion);
       $("#question").val(convertArrToExpression(arrQuestion));
     }
+    else if($(this).val() == "sin" || $(this).val() == "cos" || $(this).val() == "tan")
+    {
+      if (!isNaN(arrQuestion[arrQuestion.length-1])) // change 2sin(30) to 2*sin(30)
+      {
+        arrQuestion.push("*");
+      }
+      arrQuestion.push($(this).val());
+      $("#question").val(convertArrToExpression(arrQuestion));
+      console.log(arrQuestion);
+    }
     else
     {
       // push to the equation array
@@ -95,8 +105,35 @@ $(() => {
             }
 
             topOfTheStack = operatorStack[operatorStack.length-1]; //*
+
+            // check for sin(30) + cos(60)
+            if (topOfTheStack=="sin" || topOfTheStack=="cos" || topOfTheStack=="tan")
+            {
+              top = operatorStack.pop();
+              numberQueue.push(top);
+              topOfTheStack = operatorStack[operatorStack.length-1]; //*
+            }
+            console.log("Top -2: " + topOfTheStack);
             console.log("Top: " + top);
           }
+        }
+        else if (expr[k] == "s") // sin
+        {
+          operatorStack.push("sin");
+          topOfTheStack = expr[k];
+          k = k+2;
+        }
+        else if (expr[k] == "c") // cos
+        {
+          operatorStack.push("cos");
+          topOfTheStack = expr[k];
+          k = k+2;
+        }
+        else if (expr[k] == "t") // tan
+        {
+          operatorStack.push("tan");
+          topOfTheStack = expr[k];
+          k = k+2;
         }
         else if (topOfTheStack == '')
         {
@@ -106,7 +143,8 @@ $(() => {
         else
         {
           let op1 = expr[k];
-          let op2 = topOfTheStack;
+          //let op2 = topOfTheStack;
+          let op2 = operatorStack[operatorStack.length-1];
           console.log("Before the while loop: op: " + op1 + " op2 " + op2);
           // there is an operator o2 at the top of the operator stack which is not a left parenthesis AND (o2 has greater precedence than o1 OR (o1 and o2 have the same precedence)
           while ((op2 !== '(' ) && 
@@ -130,6 +168,7 @@ $(() => {
             {
               operatorStack.push('(');
             }
+            op2 = operatorStack[operatorStack.length-1];
 
             console.log("op2: " + op2);
             console.log(numberQueue);
@@ -192,13 +231,23 @@ $(() => {
       }
       else
       {
-        console.log(stack);
-        op2 = stack.pop();
-        op1 = stack.pop();
-        console.log(op1 + " " + op2 + " " + postFixArr[i]);
-        answer = calculate(op1, op2, postFixArr[i]);
-        stack.push(answer);
-        console.log(stack);
+        console.log(stack + postFixArr[i]);
+        if (postFixArr[i] == 'sin' || postFixArr[i] == 'cos' || postFixArr[i] == 'tan')
+        {
+          op2 = stack.pop();
+          answer = calculate(op2, 0, postFixArr[i]);
+          stack.push(answer);
+        }
+        else
+        {
+          op2 = stack.pop();
+          op1 = stack.pop();
+          console.log(op1 + " " + op2 + " " + postFixArr[i]);
+          answer = calculate(op1, op2, postFixArr[i]);
+          stack.push(answer);
+          console.log(stack);
+        }
+
       }
     }
 
@@ -225,6 +274,15 @@ $(() => {
       case '^':
         answer = Math.pow(Number(op1), Number(op2));
         break;
+      case 'sin':
+        answer = Math.sin(Number(op1) * (Math.PI / 180));
+        break;
+      case 'cos':
+        answer = Math.cos(Number(op1) * (Math.PI / 180));
+        break;
+      case 'tan':
+        answer = Math.tan(Number(op1) * (Math.PI / 180));
+        break;
     }
 
     return answer;
@@ -249,11 +307,14 @@ $(() => {
   const validateExpression = (expr) => {
     let newExpr = expr.replace(/\(/g, '');
     newExpr = newExpr.replace(/\)/g, '');
+    newExpr = newExpr.replace(/sin/g, '');
+    newExpr = newExpr.replace(/cos/g, '');
+    newExpr = newExpr.replace(/tan/g, '');
     
     console.log(newExpr);
 
     let regex = /^(\d+[\+\-\*\/\^])*[\+\-\*\/]?\d+$/;
-    return "";
+    // return "";
     if (newExpr.search(regex) !== -1)
     {
       return "";
