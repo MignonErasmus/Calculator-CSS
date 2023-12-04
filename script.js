@@ -3,7 +3,7 @@ $(() => {
   const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)");
 
   // get the current theme from local storage
-  const currTheme = localStorage.getItem("mode");
+  const currTheme = localStorage.getItem("theme");
   
   // choose the theme based on the local storage
   if (currTheme == "dark")
