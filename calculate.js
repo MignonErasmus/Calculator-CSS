@@ -43,6 +43,22 @@ $(() => {
         $("#error").text("The answer is: " + answer);
       }
     }
+    // else if ($(this).val() == "-")
+    // {
+    //   if (isNaN(arrQuestion[arrQuestion.length-1]))
+    //   {
+    //     console.log("Unary");
+    //     arrQuestion.push('-1');
+    //     arrQuestion.push("*");
+    //   }
+    //   else 
+    //   {
+    //     console.log("Binary");
+    //     arrQuestion.push("-");
+    //   }
+      
+    //   $("#question").val(convertArrToExpression(arrQuestion));
+    // }
     else if ($(this).val() == "x")
     {
       // push to the equation array
@@ -70,6 +86,7 @@ $(() => {
     {
       // push to the equation array
       arrQuestion.push($(this).val());
+      //arrQuestion.push(-1);
       $("#question").val(convertArrToExpression(arrQuestion));
     }    
   }); // on click event
@@ -78,7 +95,7 @@ $(() => {
   // work out the answer using the string expression (passed in as parameter)
   // Shunting yard algorithm - infix to postfix
   const evaluateExpression = (expr) => {
-
+    let bUnary = false;
     let number = '';
     for (let k=0; k<expr.length; k++)
     {
@@ -116,6 +133,11 @@ $(() => {
             console.log("Top -2: " + topOfTheStack);
             console.log("Top: " + top);
           }
+        }
+        else if (expr[k] == '-' && isNaN(expr[k-1]))
+        {
+          console.log("Unary");
+          bUnary = true;
         }
         else if (expr[k] == "s") // sin
         {
@@ -189,10 +211,15 @@ $(() => {
         else
         {
           number += expr[k];
+          if (bUnary)
+          {
+            number = number *-1;
+            bUnary = false;
+          }
           numberQueue.push(number);
           number = '';
         }
-        
+        //numberQueue.push('-1');
         console.log(operatorStack);
         console.log(numberQueue);
       }
@@ -238,6 +265,13 @@ $(() => {
           answer = calculate(op2, 0, postFixArr[i]);
           stack.push(answer);
         }
+        // else if (postFixArr[i]=="-" && i+1==postFixArr.length)
+        // {
+        //   console.log("HERE");
+        //   op2=stack.pop();
+        //   answer = calculate(op2, -1, "*");
+        //   stack.push(answer);
+        // }
         else
         {
           op2 = stack.pop();
@@ -298,7 +332,6 @@ $(() => {
         expr += element;
       });
     }
-
     return expr;
   }
 
@@ -314,7 +347,7 @@ $(() => {
     console.log(newExpr);
 
     let regex = /^(\d+[\+\-\*\/\^])*[\+\-\*\/]?\d+$/;
-    // return "";
+    return "";
     if (newExpr.search(regex) !== -1)
     {
       return "";

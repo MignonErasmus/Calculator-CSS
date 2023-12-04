@@ -4,7 +4,7 @@
 /* Light and dark theme styling */
 * {
   font-family: 'Nunito';
-  font-size: medium;
+  font-size: clamp(0.1rem, 2.5vw, 1rem);
 }
 
 body {
