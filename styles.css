@@ -20,9 +20,6 @@ body {
 }
 
 body.dark-mode {
-  width: 90%;
-  margin: auto;
-
   /* Dark Mode */
   --myBackGroundColor : #484644;
   --myTextColor: #FAF9F6;
