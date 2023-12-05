@@ -83,10 +83,7 @@ h1, p {
 }
 
 .right-section {
-  flex: 1;
-  /* padding-left: 1rem;
-  padding-right: 1rem; */
-  
+  flex: 1;  
   display: flex;
   align-items: center;
   justify-content:right;
@@ -96,21 +93,21 @@ h1, p {
 
 /* Calculator styling */
 .button-grid {
+  max-height: calc(100vh - 12rem);
+  aspect-ratio: 5/2;
   display: grid;
+  grid-template-rows: repeat(6,max-content);
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 1.5em;
-  row-gap: 1.5em;
-  /* margin-left: 5em;
-  margin-right: 5em;
-  margin-top: 1em; */
+  gap: clamp(0.75rem, 0.25vw, 1.5em);
 }
 
 div [class^="col"] {
+  /* 8/5 */
+  aspect-ratio: 4/1;
   border-style: none;
   border-radius: 8rem;
   background-color: var(--myNavBarColor);
   color: var(--myTextColor);
-  padding: 1rem;
 }
 
 div [class^="col"]:hover {
@@ -133,7 +130,8 @@ div [class^="col"]:hover {
   background-color: var(--myNavBarColor);
   color: var(--myTextColor);
   border-style: none;
-  padding: 1em;
+  padding-left: 1em;
+  aspect-ratio: 16/1;
   border-radius: 8em;
 }
 
@@ -145,9 +143,11 @@ div [class^="col"]:hover {
 
   background-color: var(--myBackGroundColor);
   padding: 0;
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
   color: var(--myAccentColor);
+  min-height: 1.5rem;
+  
 }
 
 #clear {
