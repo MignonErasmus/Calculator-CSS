@@ -93,16 +93,16 @@ h1, p {
 
 /* Calculator styling */
 .button-grid {
-  max-height: calc(100vh - 12rem);
+  max-height: calc(100vh - 13rem);
+  margin: auto;
   aspect-ratio: 5/2;
   display: grid;
   grid-template-rows: repeat(6,max-content);
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4,1fr);
   gap: clamp(0.75rem, 0.25vw, 1.5em);
 }
 
 div [class^="col"] {
-  /* 8/5 */
   aspect-ratio: 4/1;
   border-style: none;
   border-radius: 8rem;
